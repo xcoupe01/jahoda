@@ -78,7 +78,8 @@ export function StrawberryMarker(strawberry, user_pos, user_acc){
     <div>
       <Marker position={strawberry.pos} icon={found ? f_stawberry_ico : nf_stawberry_ico} eventHandlers={{
         click: (e) => {
-          handleShow()
+          console.log('clicked');
+          handleShow();
         },
       }}/>
 
