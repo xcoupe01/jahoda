@@ -151,8 +151,8 @@ export default function App() {
       )}
       {positionSt == null ? null : 
       <div>
-        <CircleMarker center={positionSt} fillOpacity={0.8} fillColor={collect_acc_active(pos_acc) ? "green" : "blue"}/>
-        <Circle center={positionSt} radius={pos_acc} fillColor={collect_acc_active(pos_acc) ? "green" : "blue"}/>
+        <CircleMarker center={positionSt} fillOpacity={0.8} fillColor={collect_acc_active(pos_acc) ? "green" : "blue"} color={collect_acc_active(pos_acc) ? "green" : "blue"}/>
+        <Circle center={positionSt} radius={pos_acc} fillColor={collect_acc_active(pos_acc) ? "green" : "blue"} color={collect_acc_active(pos_acc) ? "green" : "blue"}/>
       </div>}
       
     </MapContainer>
