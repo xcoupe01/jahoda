@@ -36,17 +36,17 @@ var strawberries = [
 ];
 
 const f_stawberry_ico = new Icon({
-  iconUrl: "/img/strawberry.png",
+  iconUrl: "img/strawberry.png",
   iconSize: def_icon_size
 });
 
 const nf_stawberry_ico = new Icon({
-  iconUrl: "/img/strawberry-g.png",
+  iconUrl: "img/strawberry-g.png",
   iconSize: def_icon_size
 });
 
 const position_ico = new Icon({
-  iconUrl: "/img/position.png",
+  iconUrl: "img/position.png",
   iconSize: def_icon_size
 });
 
