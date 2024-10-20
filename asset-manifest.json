@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/jahoda/static/css/main.17f4059c.css",
-    "main.js": "/jahoda/static/js/main.ad5cddd3.js",
+    "main.css": "/jahoda/static/css/main.572fd2fb.css",
+    "main.js": "/jahoda/static/js/main.f3975b41.js",
     "static/js/453.d9f78755.chunk.js": "/jahoda/static/js/453.d9f78755.chunk.js",
     "static/media/fontawesome-webfont.svg?v=4.7.0": "/jahoda/static/media/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg",
     "static/media/fontawesome-webfont.eot": "/jahoda/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
@@ -9,12 +9,12 @@
     "static/media/fontawesome-webfont.woff?v=4.7.0": "/jahoda/static/media/fontawesome-webfont.f691f37e57f04c152e23.woff",
     "static/media/fontawesome-webfont.woff2?v=4.7.0": "/jahoda/static/media/fontawesome-webfont.20fd1704ea223900efa9.woff2",
     "index.html": "/jahoda/index.html",
-    "main.17f4059c.css.map": "/jahoda/static/css/main.17f4059c.css.map",
-    "main.ad5cddd3.js.map": "/jahoda/static/js/main.ad5cddd3.js.map",
+    "main.572fd2fb.css.map": "/jahoda/static/css/main.572fd2fb.css.map",
+    "main.f3975b41.js.map": "/jahoda/static/js/main.f3975b41.js.map",
     "453.d9f78755.chunk.js.map": "/jahoda/static/js/453.d9f78755.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.17f4059c.css",
-    "static/js/main.ad5cddd3.js"
+    "static/css/main.572fd2fb.css",
+    "static/js/main.f3975b41.js"
   ]
 }
