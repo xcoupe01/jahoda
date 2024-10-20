@@ -1,7 +1,7 @@
 import './App.css';
 import './styles.css';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import { Icon } from "leaflet";
 import React, { useState, useEffect } from "react";
 import * as L from "leaflet";
@@ -11,7 +11,7 @@ import "leaflet-easybutton/src/easy-button.css";
 import "font-awesome/css/font-awesome.min.css";
 import "leaflet-easybutton/src/easy-button.js";
 
-const DISTANCE_TRESHOLD = 250;
+const DISTANCE_TRESHOLD = 25;
 const def_position = [49.1779167, 16.6845664];
 const def_icon_size = [38, 38];
 
@@ -50,7 +50,7 @@ const position_ico = new Icon({
   iconSize: def_icon_size
 });
 
-export function StrawberryMarker(strawberry, user_pos){
+export function StrawberryMarker(strawberry, user_pos, user_acc){
   const start_found_list = cookie_prov.get('found')
   const [found, setFound] = useState(start_found_list == null ? false : start_found_list.includes(strawberry.id));
   const dist = user_pos == null ? null : Math.round(user_pos.distanceTo(strawberry.pos));
@@ -61,7 +61,7 @@ export function StrawberryMarker(strawberry, user_pos){
     );
   }
 
-  if(dist <= DISTANCE_TRESHOLD && !found){
+  if(dist <= DISTANCE_TRESHOLD && !found && user_acc <= DISTANCE_TRESHOLD){
     setFound(true);
     var cookie_found = cookie_prov.get('found');
     if(cookie_found == null){
@@ -86,11 +86,14 @@ export default function App() {
 
   const [map, setMap] = useState(null);
   const [position, setPosition] = useState(null);
+  const [pos_acc, setAcc] = useState(null);
   var track = false
 
   function pos_updater(){
     map.locate().on("locationfound", function (e) {
       setPosition(e.latlng);
+      setAcc(e.accuracy);
+      map.flyTo(e.latlng);
     });
     if(track){
       console.log('tracking');
@@ -122,9 +125,13 @@ export default function App() {
         url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
       />
       {strawberries.map(strawberry => 
-        StrawberryMarker(strawberry, position)
+        StrawberryMarker(strawberry, position, pos_acc)
       )}
-      {position == null ? null : <Marker position={position} icon={position_ico}/>}
+      {position == null ? null : 
+      <div>
+        <Marker position={position} icon={position_ico}/>
+        <Circle center={position} radius={pos_acc}/>
+      </div>}
       
     </MapContainer>
   );
