@@ -1,7 +1,7 @@
 import './App.css';
 import './styles.css';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Circle, CircleMarker } from 'react-leaflet';
 import { Icon } from "leaflet";
 import React, { useState, useEffect } from "react";
 import * as L from "leaflet";
@@ -50,6 +50,10 @@ const position_ico = new Icon({
   iconSize: def_icon_size
 });
 
+function collect_acc_active(acc){
+  return acc <= DISTANCE_TRESHOLD
+}
+
 export function StrawberryMarker(strawberry, user_pos, user_acc){
   const start_found_list = cookie_prov.get('found')
   const [found, setFound] = useState(start_found_list == null ? false : start_found_list.includes(strawberry.id));
@@ -61,7 +65,7 @@ export function StrawberryMarker(strawberry, user_pos, user_acc){
     );
   }
 
-  if(dist <= DISTANCE_TRESHOLD && !found && user_acc <= DISTANCE_TRESHOLD){
+  if(dist <= DISTANCE_TRESHOLD && !found && collect_acc_active(user_acc)){
     setFound(true);
     var cookie_found = cookie_prov.get('found');
     if(cookie_found == null){
@@ -85,19 +89,24 @@ export function StrawberryMarker(strawberry, user_pos, user_acc){
 export default function App() {
 
   const [map, setMap] = useState(null);
-  const [position, setPosition] = useState(null);
+  const [positionSt, setPosition] = useState(null);
   const [pos_acc, setAcc] = useState(null);
-  var track = false
+  var position = null;
+  var track = false;
+  var follow = false;
 
   function pos_updater(){
     map.locate().on("locationfound", function (e) {
+      position = e.latlng;
       setPosition(e.latlng);
       setAcc(e.accuracy);
-      map.flyTo(e.latlng);
+      if(follow){
+        map.flyTo(e.latlng);
+      };
     });
     if(track){
       console.log('tracking');
-      setTimeout(pos_updater, 10_000);
+      setTimeout(pos_updater, 3_000);
     } else {
       console.log('tracking ended');
     }
@@ -105,11 +114,24 @@ export default function App() {
 
   useEffect(() => {
     if (!map) return;
-    L.easyButton("fa-crosshairs fa-lg", () => {
+    var loc_btn = null;
+    map.on('dragstart', () => {
+      follow = false;
+    });
+    L.easyButton("fa-crosshairs fa-lg", (btn) => {
       if(track){
-        track = false
+        if(follow){
+          btn.button.style.backgroundColor = 'white';
+          track = false;
+          follow = false;
+        } else {
+          follow = true;
+          map.flyTo(position);
+        }
       } else {
+        btn.button.style.backgroundColor = 'rgb(162, 191, 254)';
         track = true;
+        follow = true;
         pos_updater(true);
       }
     }).addTo(map);
@@ -125,12 +147,12 @@ export default function App() {
         url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
       />
       {strawberries.map(strawberry => 
-        StrawberryMarker(strawberry, position, pos_acc)
+        StrawberryMarker(strawberry, positionSt, pos_acc)
       )}
-      {position == null ? null : 
+      {positionSt == null ? null : 
       <div>
-        <Marker position={position} icon={position_ico}/>
-        <Circle center={position} radius={pos_acc}/>
+        <CircleMarker center={positionSt} fillOpacity={0.8} fillColor={collect_acc_active(pos_acc) ? "green" : "blue"}/>
+        <Circle center={positionSt} radius={pos_acc} fillColor={collect_acc_active(pos_acc) ? "green" : "blue"}/>
       </div>}
       
     </MapContainer>
