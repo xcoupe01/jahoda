@@ -16,3 +16,22 @@
 .leaflet-container {
     height: 100vh;
 }
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+  
+.fade_in {
+    animation: fadeInAnimation ease 4s;
+}
+
+.fit {
+    max-width: 99%;
+    max-height: 99%;
+  }
